@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: microservicio-productos
+          uri: lb://microservicio-productos
+          predicates:
+            - Path=/api/productos/**
+          filters:
+            - StripPrefix=2
+        - id: microservicio-items
+          uri: lb://microservicio-items
+          predicates:
+            - Path=/api/items/**
+          filters:
+            - StripPrefix=2
+            - name: Customize
+              args:
+                headerName: AuthorizationToken
+                headerValue: ADMIN
+                cookieName: Sorbeticos
+                cookieValue: Vainilla
