@@ -8,10 +8,15 @@ spring:
             - Path=/api/productos/**
           filters:
             - StripPrefix=2
+            - AddRequestHeader=Greetings, Welcome
+            - SetResponseHeader=Content-Type, text/plain
         - id: microservicio-items
           uri: lb://microservicio-items
           predicates:
             - Path=/api/items/**
+            - Method=GET
+            - Header=AccessToken, Pass
+            #puedes tambien pones Cookie, Query, Time , etc.. en los predicates y tiene q tener eso para q te haga la request
           filters:
             - StripPrefix=2
             - name: Customize
@@ -20,3 +25,6 @@ spring:
                 headerValue: ADMIN
                 cookieName: Sorbeticos
                 cookieValue: Vainilla
+            - AddRequestParameter=greetings, welcome_from_gateway
+            - AddRequestHeader=Greetings, Hi!
+            - AddResponseHeader=Greetings, Good_Bye

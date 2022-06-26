@@ -2,13 +2,11 @@ package curso.microservicios.items.controllers;
 
 import curso.microservicios.items.models.Item;
 import curso.microservicios.items.services.ItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +16,7 @@ import java.util.List;
 
 //@RequiredArgsConstructor
 @RestController
+@Slf4j
 @RequestMapping(path="/item")
 public class ItemController {
     //@Qualifier("feignclientservice")
@@ -26,7 +25,10 @@ public class ItemController {
     private ItemService itemService;
 
     @GetMapping(path = "/listaitems")
-    public ResponseEntity<List<Item>> getListaItems(){
+    public ResponseEntity<List<Item>> getListaItems(
+            @RequestParam(name = "greetings", required = false) String greetingsParam,
+            @RequestHeader(name="greetings", required = false) String greetingsHeader){
+        log.info(greetingsHeader + greetingsParam);
         return ResponseEntity.ok().body(itemService.listaItems());
     }
 
