@@ -17,7 +17,7 @@ public class FeignClientItemServiceImpl implements ItemService {
 
     private final FeignClientProducto feignClientProducto;
     @Override
-    public List<Item> listaItems() {
+    public List<Item> listaItems(String timeOut) {
         return feignClientProducto.listaProductos()
                 .stream()
                 .map(producto -> new Item(producto,1))

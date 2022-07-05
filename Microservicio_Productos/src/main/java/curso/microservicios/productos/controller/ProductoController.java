@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(path = "/producto")
@@ -18,9 +19,9 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @GetMapping(path = "/all")
-    public ResponseEntity<List<Producto>> getAllProducts(){
-        return ResponseEntity.ok(productoService.allProducts());
+    @GetMapping(path = "/all/{timeout}")
+    public ResponseEntity<List<Producto>> getAllProducts(@PathVariable(name = "timeout") String timeOut) throws InterruptedException {
+        return ResponseEntity.ok(productoService.allProducts(timeOut));
     }
 
     @GetMapping(path = "/getproducto/{id}")

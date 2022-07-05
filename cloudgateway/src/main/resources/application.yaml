@@ -1,3 +1,31 @@
+#TAMBIEN PUEDO METER EL CIRCUITBREAKER AQUI LUEGO DE HABER AGREGADO LA DEPENDENCIA DE REACTOR-RESILENCE4J
+#Y PUEDO COPIAR Y PEGAR LA CONFIGURACION DE CIRCUITBREAKER Y TIMELIMITER AQUI Y LUEGO AL MICROSERVICIO QUE QUIERA LE PUEDO
+#PONER EL CIRCUITBREAKER SIMPLEMENTE AGRENADO EN EL FILTERS DE ESTE - CircuitBreaker
+#PERO SI SE QUIERE QUE ESTE TAMBIEN SEA MEJOR CONFIGURADO Y CON UN FALLBACK METHOD
+resilience4j:
+  circuitbreaker:
+    configs:
+      defecto:
+        sliding-window-size: 6
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 4
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2s
+    instances:
+      items:
+        base-config: defecto
+      productos:
+        base-config: defecto
+  timelimiter:
+    configs:
+      defecto:
+        timeout-duration: 4s
+    instances:
+      items:
+        base-config: defecto
+      productos:
+        base-config: defecto
 spring:
   cloud:
     gateway:
@@ -7,6 +35,11 @@ spring:
           predicates:
             - Path=/api/productos/**
           filters:
+            - name: CircuitBreaker
+              args:
+                name: productos
+                statusCodes: 500
+                fallBackUri: forward:/api/items/item/listaitems/n
             - StripPrefix=2
             - AddRequestHeader=Greetings, Welcome
             - SetResponseHeader=Content-Type, text/plain
