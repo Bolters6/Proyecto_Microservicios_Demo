@@ -1,5 +1,6 @@
 package curso.microservicios.items.models;
 
+import com.example.libreria_commons.models.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

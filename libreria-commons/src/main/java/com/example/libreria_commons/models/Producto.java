@@ -1,6 +1,4 @@
-package curso.microservicios.productos.models;
-
-import org.springframework.beans.factory.annotation.Value;
+package com.example.libreria_commons.models;
 
 import javax.persistence.*;
 import java.io.Serializable;

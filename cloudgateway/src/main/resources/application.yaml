@@ -35,11 +35,11 @@ spring:
           predicates:
             - Path=/api/productos/**
           filters:
-            - name: CircuitBreaker
-              args:
-                name: productos
-                statusCodes: 500
-                fallBackUri: forward:/api/items/item/listaitems/n
+#            - name: CircuitBreaker
+#              args:
+#                name: productos
+#                statusCodes: 500
+#                fallBackUri: forward:/item/listaitems/n
             - StripPrefix=2
             - AddRequestHeader=Greetings, Welcome
             - SetResponseHeader=Content-Type, text/plain
@@ -47,7 +47,7 @@ spring:
           uri: lb://microservicio-items
           predicates:
             - Path=/api/items/**
-            - Method=GET
+            - Method=GET, POST, PUT, DELETE #SI NO PONGO NADA AGARRA TODOS LOS POSIBLES METODOS, ATENCION PORQUE SI DEFINES ALGUNAS SOLO ESOS ADMITIRA Y SI USAS OTRO TE DARA UN 404
             - Header=AccessToken, Pass
             #puedes tambien pones Cookie, Query, Time , etc.. en los predicates y tiene q tener eso para q te haga la request
           filters:

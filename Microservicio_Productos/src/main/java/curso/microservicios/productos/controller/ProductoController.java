@@ -1,21 +1,22 @@
 package curso.microservicios.productos.controller;
 
-import curso.microservicios.productos.models.Producto;
+import com.example.libreria_commons.models.Producto;
 import curso.microservicios.productos.services.ProductoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 @RestController
 @RequestMapping(path = "/producto")
 public class ProductoController {
 
+    private final Logger log = LoggerFactory.getLogger(ProductoController.class);
     @Autowired
     private ProductoService productoService;
 
@@ -29,4 +30,19 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.getProduct(id));
     }
 
+    @PostMapping(path = "/addproducto")
+    public ResponseEntity<Producto> addProduct(@RequestBody Producto producto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoService.addProduct(producto));
+    }
+
+    @PutMapping(path = "/updateproducto/{id}")
+    public ResponseEntity<Producto> updateProduct(@RequestBody Producto producto, @PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoService.updateProduct(id, producto));
+    }
+
+    @DeleteMapping(path = "/deleteproducto/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        productoService.deleteProduct(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

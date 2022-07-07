@@ -1,7 +1,7 @@
 package curso.microservicios.items.controllers;
 
+import com.example.libreria_commons.models.Producto;
 import curso.microservicios.items.models.Item;
-import curso.microservicios.items.models.Producto;
 import curso.microservicios.items.services.ItemService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,12 +84,12 @@ public class ItemController {
     private ResponseEntity<List<Item>> alternativeGetListaItems(String timeOut, String greetingsParam, String greetingsHeader, Throwable e){
         log.error(e.getMessage());
         log.info(greetingsHeader + greetingsParam);
-        return ResponseEntity.ok().body(List.of(new Item(new Producto(null, "ERROR", 0.0, Date.valueOf(LocalDate.now()), puerto), 1)));
+        return ResponseEntity.ok().body(List.of(new Item(new Producto(null, "ERROR", 0.0, Date.valueOf(LocalDate.now())), 1)));
     }
     private CompletableFuture<ResponseEntity<List<Item>>> alternativeGetListaItems2(String timeOut, String greetingsParam, String greetingsHeader, Throwable e){
         log.error(e.getMessage());
         log.info(greetingsHeader + greetingsParam);
-        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok().body(List.of(new Item(new Producto(null, "ERROR", 0.0, Date.valueOf(LocalDate.now()), puerto), 1))));
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.ok().body(List.of(new Item(new Producto(null, "ERROR", 0.0, Date.valueOf(LocalDate.now())), 1))));
     }
     @GetMapping(path = "/get/{id}/cantidad/{cantidad}")
     public ResponseEntity<Item> getItem(@PathVariable Long id, @PathVariable Integer cantidad){
@@ -102,6 +103,30 @@ public class ItemController {
 
     private ResponseEntity<Item> alternativeGetItem(Long id, Integer cantidad, Throwable e){
         log.error(e.getMessage());
-        return ResponseEntity.ok().body(new Item(new Producto(id, "ERROR", 0.0, Date.valueOf(LocalDate.now()), puerto), cantidad));
+        return ResponseEntity.ok().body(new Item(new Producto(id, "ERROR", 0.0, Date.valueOf(LocalDate.now())), cantidad));
+    }
+    @PostMapping(path = "/additem")
+    public ResponseEntity<?> addItem(@RequestBody Producto producto, @RequestParam Integer cantidad){
+        return breakerFactory.create("items")
+                .run(() -> ResponseEntity.status(HttpStatus.CREATED).body(itemService.addItem(producto, cantidad)), this::alternativeNewCrudMethods);
+    }
+
+    @PutMapping(path = "/updateitem/{id}")
+    public ResponseEntity<?> updateItem(@PathVariable Long id, @RequestBody Producto producto, @RequestParam Integer cantidad){
+        return breakerFactory.create("items")
+                .run(() -> ResponseEntity.status(HttpStatus.CREATED).body(itemService.updateItem(id, producto, cantidad)), this::alternativeNewCrudMethods);
+    }
+
+    @DeleteMapping(path = "/deleteitem/{id}")
+    public ResponseEntity<?> deleteItem(@PathVariable Long id){
+        return breakerFactory.create("items").run(() -> {
+            itemService.deleteItem(id);
+            return ResponseEntity.noContent().build();
+        }, this::alternativeNewCrudMethods);
+    }
+
+    private ResponseEntity<?> alternativeNewCrudMethods(Throwable e){
+        log.error(e.getMessage() + "\n" + puerto);
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 }

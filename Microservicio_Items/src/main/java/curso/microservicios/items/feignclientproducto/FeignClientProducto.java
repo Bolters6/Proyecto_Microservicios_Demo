@@ -1,6 +1,6 @@
 package curso.microservicios.items.feignclientproducto;
 
-import curso.microservicios.items.models.Producto;
+import com.example.libreria_commons.models.Producto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

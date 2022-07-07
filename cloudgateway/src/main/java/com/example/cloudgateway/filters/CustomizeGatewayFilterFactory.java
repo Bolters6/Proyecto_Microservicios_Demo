@@ -41,7 +41,7 @@ public class CustomizeGatewayFilterFactory
                 return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                     logger.info("Post Customize Filter");
                     exchange.getResponse().addCookie(ResponseCookie.from(config.cookieName, config.cookieValue).build());
-                    exchange.getResponse().setStatusCode(HttpStatus.OK);
+                    //exchange.getResponse().setStatusCode(HttpStatus.OK);
                 }));
             }
 

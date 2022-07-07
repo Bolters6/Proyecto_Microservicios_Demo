@@ -1,6 +1,6 @@
 package curso.microservicios.items.models;
 
-import lombok.AllArgsConstructor;
+/*import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +17,4 @@ public class Producto implements Serializable {
     private Double precio;
     private Date createdAt;
     private String puerto;
-}
+}*/

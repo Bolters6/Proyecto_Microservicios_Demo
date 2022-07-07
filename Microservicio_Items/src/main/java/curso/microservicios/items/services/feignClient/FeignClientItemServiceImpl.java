@@ -1,5 +1,6 @@
 package curso.microservicios.items.services.feignClient;
 
+import com.example.libreria_commons.models.Producto;
 import curso.microservicios.items.feignclientproducto.FeignClientProducto;
 import curso.microservicios.items.models.Item;
 import curso.microservicios.items.services.ItemService;
@@ -26,5 +27,20 @@ public class FeignClientItemServiceImpl implements ItemService {
     @Override
     public Item getItem(Long id, Integer cantidad) {
         return new Item(feignClientProducto.getProducto(id), cantidad);
+    }
+
+    @Override
+    public Item addItem(Producto producto, Integer cantidad) {
+        return null;
+    }
+
+    @Override
+    public Item updateItem(Long id, Producto producto, Integer cantidad) {
+        return null;
+    }
+
+    @Override
+    public void deleteItem(Long id) {
+
     }
 }
