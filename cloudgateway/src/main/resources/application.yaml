@@ -61,3 +61,18 @@ spring:
             - AddRequestParameter=greetings, welcome_from_gateway
             - AddRequestHeader=Greetings, Hi!
             - AddResponseHeader=Greetings, Good_Bye
+        - id: microservicio-usuarios
+          uri: lb://microservicio-usuarios
+          predicates:
+            - Path=/api/usuarios/**
+          filters:
+            - StripPrefix=2
+            - AddRequestHeader=AccessToken, Pass
+        - id: oauth-server
+          uri: lb://oauth-server
+          predicates:
+            - Path=/api/security/**
+          filters:
+            - StripPrefix=2
+            - AddRequestHeader=AccessToken, Pass
+
