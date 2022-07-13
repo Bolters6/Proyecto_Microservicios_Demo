@@ -10,13 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 //SI QUIERO USAR QUALIFIER NO PUEDO USAR LOMBOK, NI INYECTOR POR CONSTRUCTOR COMO INJECTOR PERO USAR AUTOWIRED, QUALIFIER ME PERMITE
@@ -24,12 +28,14 @@ import java.util.concurrent.CompletableFuture;
 //QUE QUIERO QUE ELIJA
 
 //@RequiredArgsConstructor
+@RefreshScope
 @RestController
 @Slf4j
 @RequestMapping(path="/item")
 public class ItemController {
 
-
+    @Autowired
+    private Environment environment;
     @Autowired
     private CircuitBreakerFactory breakerFactory;
 
@@ -38,8 +44,8 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @Value("${server.port}")
-    private String puerto;
+    @Value("${configuracion.texto}")
+    private String texto;
     //timeout en el pathvariable para simular una falla de timeout , si quiero simular la falla mando un "y"
     @GetMapping(path = "/listaitems/{timeout}")
     public ResponseEntity<List<Item>> getListaItems(
@@ -126,7 +132,17 @@ public class ItemController {
     }
 
     private ResponseEntity<?> alternativeNewCrudMethods(Throwable e){
-        log.error(e.getMessage() + "\n" + puerto);
+        log.error(e.getMessage() + "\n" + environment.getProperty("server.port"));
         return ResponseEntity.internalServerError().body(e.getMessage());
+    }
+    @GetMapping(path = "/getconfig")
+    public ResponseEntity<Map<String, String>> getEnvPropertiesConfig(@Value("${server.port}") String puerto){
+        Map<String, String> json = new HashMap<>();
+        json.put("puerto", puerto);
+        json.put("texto", texto);
+        if(environment.getActiveProfiles()[0].equals("dev")){
+            json.put("developer", environment.getProperty("configuracion.developer.name"));
+        }
+        return ResponseEntity.ok().body(json);
     }
 }
