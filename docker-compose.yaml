@@ -1,0 +1,70 @@
+version: '3.7'
+services:
+  config-server:
+    image: config-server:v1
+    ports:
+      - "8083:8083"
+    restart: always
+    networks:
+      - springcloud
+  eureka-server:
+    image: eureka-server:v1
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - springcloud
+  productos:
+    image: productos:v1
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+  items:
+    image: items:v1
+    ports:
+      - "8005:8005"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - productos
+  microservicio-usuarios:
+    image: microservicio-usuarios:v1
+    restart: always
+    networks:
+        - springcloud
+    depends_on:
+        - config-server
+        - eureka-server
+  oauth-server:
+    image: servicio-oauth:v1
+    ports:
+      - "8087:8087"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - microservicio-usuarios
+  cloudgateway:
+    image: cloudgateway:v1
+    ports:
+      - "8090:8090"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - productos
+      - items
+      - microservicio-usuarios
+      - oauth-server
+networks:
+  springcloud:
