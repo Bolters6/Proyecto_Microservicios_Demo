@@ -13,4 +13,4 @@ RUN mvn clean install
 FROM openjdk:17-alpine3.14
 COPY --from=build /cloudgateway/target/cloudgateway-0.0.1-SNAPSHOT.jar cloudgateway.jar
 EXPOSE 8090
-ENTRYPOINT ["java", "-jar", "cloudgateway.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "cloudgateway.jar"]

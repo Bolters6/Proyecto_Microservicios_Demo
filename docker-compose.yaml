@@ -1,6 +1,11 @@
-version: '3.7'
+version: '3'
 services:
   config-server:
+    build:
+      context: config-server
+      dockerfile: Dockerfile
+    hostname: config-server
+    container_name: config-server
     image: config-server:v1
     ports:
       - "8083:8083"
@@ -8,6 +13,11 @@ services:
     networks:
       - springcloud
   eureka-server:
+    build:
+      context: eureka-server
+      dockerfile: Dockerfile
+    hostname: eureka-server
+    container_name: eureka-server
     image: eureka-server:v1
     ports:
       - "8761:8761"
@@ -15,6 +25,12 @@ services:
     networks:
       - springcloud
   productos:
+    build:
+      context: .
+      dockerfile: Productos.Dockerfile
+    container_name: productos
+    ports:
+      - "8080:8080"
     image: productos:v1
     restart: always
     networks:
@@ -23,10 +39,13 @@ services:
       - config-server
       - eureka-server
   items:
+    build:
+      context: .
+      dockerfile: Items.Dockerfile
     image: items:v1
     ports:
-      - "8005:8005"
-    restart: always
+      - "8007:8007"
+    container_name: items
     networks:
       - springcloud
     depends_on:
@@ -34,15 +53,25 @@ services:
       - eureka-server
       - productos
   microservicio-usuarios:
+    build:
+      context: .
+      dockerfile: Usuarios.Dockerfile
     image: microservicio-usuarios:v1
     restart: always
+    container_name: microservicio-usuarios
+    ports:
+      - "8088:8088"
     networks:
         - springcloud
     depends_on:
         - config-server
         - eureka-server
   oauth-server:
+    build:
+      context: .
+      dockerfile: Oauth.Dockerfile
     image: servicio-oauth:v1
+    container_name: oauth-server
     ports:
       - "8087:8087"
     restart: always
@@ -53,10 +82,14 @@ services:
       - eureka-server
       - microservicio-usuarios
   cloudgateway:
+    build:
+      context: cloudgateway
+      dockerfile: Dockerfile
     image: cloudgateway:v1
     ports:
       - "8090:8090"
     restart: always
+    container_name: cloudgateway
     networks:
       - springcloud
     depends_on:
@@ -68,3 +101,4 @@ services:
       - oauth-server
 networks:
   springcloud:
+    driver: bridge

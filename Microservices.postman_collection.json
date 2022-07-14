@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "f9c9ac58-348e-4cc3-9a77-cc804e80ed55",
+		"name": "Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "lista items sin desencatenar timeout o lag",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJCb2x0ZXJzIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImlkIjoxLCJleHAiOjE2NTc4MDU2MDQsImF1dGhvcml0aWVzIjpbIlVTRVIiLCJBRE1JTiJdLCJqdGkiOiIyYTBjYzc2My0zOWQ0LTQxN2UtYWFjMS0yYmNmOWQxZTIwMzgiLCJlbWFpbCI6ImJvbHRlcnNAZ21haWwuY29tIiwiY2xpZW50X2lkIjoiY2xpZW50cyJ9.0655pcoYPsy5WIF94wk5ZqWSnQrRE2II6G8kVmaF4YQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					},
+					{
+						"key": "AuthorizationToken",
+						"value": "ADMIN",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/api/items/item/listaitems/y",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"items",
+						"item",
+						"listaitems",
+						"y"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get item con header token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJNYXJpbyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJpZCI6MiwiZXhwIjoxNjU3ODA1NTY0LCJhdXRob3JpdGllcyI6WyJVU0VSIl0sImp0aSI6IjAxZmEyYzYzLWU5YmUtNGEzNy04NTBkLTQ1ODIwYjcwMzMzNyIsImVtYWlsIjoibWFyaW9AZ21haWwuY29tIiwiY2xpZW50X2lkIjoiY2xpZW50cyJ9.cvuuCcF9z-m1nDxY9DgREjX3bRZRMF72auWx3hH97lM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					},
+					{
+						"key": "AuthorizationToken",
+						"value": "ADMIN",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/api/items/item/get2/1/cantidad/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"items",
+						"item",
+						"get2",
+						"1",
+						"cantidad",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					},
+					{
+						"key": "AuthorizationToken",
+						"value": "ADMIN",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"HP\",\r\n    \"precio\": 500.0,\r\n    \"createdAt\": \"2022-07-06\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/api/items/item/additem?cantidad=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"items",
+						"item",
+						"additem"
+					],
+					"query": [
+						{
+							"key": "cantidad",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post producto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Xiaomi\",\r\n    \"precio\": 500.0,\r\n    \"createdAt\": \"2022-07-06\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/api/productos/producto/addproducto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"productos",
+						"producto",
+						"addproducto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get todos los productos sin lag o timeout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/api/productos/producto/all/n",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"productos",
+						"producto",
+						"all",
+						"n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get todos usuarios",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJCb2x0ZXJzIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImlkIjoxLCJleHAiOjE2NTc4MDU2MDQsImF1dGhvcml0aWVzIjpbIlVTRVIiLCJBRE1JTiJdLCJqdGkiOiIyYTBjYzc2My0zOWQ0LTQxN2UtYWFjMS0yYmNmOWQxZTIwMzgiLCJlbWFpbCI6ImJvbHRlcnNAZ21haWwuY29tIiwiY2xpZW50X2lkIjoiY2xpZW50cyJ9.0655pcoYPsy5WIF94wk5ZqWSnQrRE2II6G8kVmaF4YQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/api/usuarios/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"usuarios",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obtener token auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "clients",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Pass",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "Bolters",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "default"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8090/api/security/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"security",
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "prueba en el config-server",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/microservicio-items/default",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"microservicio-items",
+						"default"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "prueba servicio items conectado config-server",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8007/item/getconfig",
+					"host": [
+						"localhost"
+					],
+					"port": "8007",
+					"path": [
+						"item",
+						"getconfig"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uso actuator para refreshscope",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8007/actuator/refresh",
+					"host": [
+						"localhost"
+					],
+					"port": "8007",
+					"path": [
+						"actuator",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

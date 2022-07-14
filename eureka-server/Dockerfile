@@ -11,6 +11,6 @@ RUN mvn clean install
 # Package stage
 #
 FROM openjdk:17-alpine3.14
-COPY --from=build /eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar eureka-server.jar
+COPY --from=build eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar eureka-server.jar
 EXPOSE 8761
-ENTRYPOINT ["java", "-jar", "eureka-server.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "eureka-server.jar"]
