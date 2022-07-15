@@ -46,6 +46,7 @@ services:
     ports:
       - "8007:8007"
     container_name: items
+    restart: always
     networks:
       - springcloud
     depends_on:
